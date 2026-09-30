@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f5f1"><title>像素工坊 · 本地图片转换</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header class="topbar"><a class="brand" href="/" aria-label="像素工坊首页"><span class="brand-icon">▧</span> 像素工坊 <span class="brand-en">PIXEL STUDIO</span></a><span class="local"><i></i> 只在本机处理</span></header>
+<main>
+<section class="intro"><div><div class="eyebrow">IMAGE CONVERTER <span>/</span> 01</div><h1>一张图片，更多可能<span>。</span></h1><p>调整尺寸，自由转换格式。让每一张图片，恰好合适。</p></div><span class="intro-mark" aria-hidden="true">↗</span></section>
+<div class="workspace">
+<section class="panel image-panel"><div class="panel-title"><h2><span class="step">01</span> 图片工作台</h2><button id="replace" class="text-button" hidden>更换图片 ↗</button></div>
+<input id="file" type="file" aria-label="选择图片文件" hidden>
+<button id="dropzone" class="dropzone"><span class="upload-icon" aria-hidden="true">↥</span><strong>将图片拖到这里</strong><span>或点击选择本地文件</span><span class="upload-rule">单张不超过 30 MB · 按文件内容识别格式</span><span class="format-chips"><b>JPG</b><b>PNG</b><b>SVG</b><b>GIF</b><b>WEBP</b><b>TIFF</b><b>ICO</b></span></button>
+<div id="image-workspace" hidden><div class="preview-toolbar"><div class="tabs" role="group" aria-label="预览选择"><button id="original-tab" aria-pressed="true">原图</button><button id="result-tab" aria-pressed="false" disabled>生成结果</button></div><span id="preview-label">适应窗口</span></div><div class="preview checker"><img id="preview" alt="上传图片预览"></div><div class="file-summary"><div class="file-icon" aria-hidden="true">▧</div><div><strong id="filename"></strong><span id="file-meta"></span></div><span id="verified" class="verified">✓ 已校验</span></div><dl class="facts"><div><dt>真实格式</dt><dd id="detected">—</dd></div><div><dt>原始尺寸</dt><dd id="dimensions">—</dd></div><div><dt>帧数 / 页数</dt><dd id="frames">—</dd></div></dl></div>
+<div class="privacy-note"><span aria-hidden="true">⊙</span><p>图片留在你的设备上。临时文件会在 30 分钟后自动清理。</p></div>
+</section>
+<section class="panel settings-panel"><div class="panel-title"><h2><span class="step">02</span> 设置输出</h2><span class="small-label">为你的用途而设</span></div>
+<form id="settings"><fieldset id="options" disabled><div class="field-heading"><label>目标尺寸</label><button type="button" id="reset-size" class="text-button">恢复原尺寸</button></div><div class="dimension-row"><label><span>宽度</span><div class="input-wrap"><input id="width" type="number" min="1" max="40000000" step="1" required placeholder="1920"><span>px</span></div></label><span class="times">×</span><label><span>高度</span><div class="input-wrap"><input id="height" type="number" min="1" max="40000000" step="1" required placeholder="1080"><span>px</span></div></label></div>
+<div class="fit-selector" role="group" aria-label="尺寸适配方式"><label><input type="radio" name="fit" value="contain" checked><span>▣ 等比留白</span></label><label><input type="radio" name="fit" value="cover"><span>▧ 居中裁剪</span></label><label><input type="radio" name="fit" value="stretch"><span>↔ 直接拉伸</span></label></div>
+<div class="field-heading"><label for="format">输出格式</label><span class="small-label">8 种格式</span></div><select id="format"><option value="png">PNG · 清晰无损，支持透明</option><option value="jpeg">JPEG · 通用照片格式</option><option value="webp">WebP · 更轻巧的网页图片</option><option value="gif">GIF · 动画与索引色</option><option value="svg">SVG · 嵌入位图，非矢量描摹</option><option value="tiff">TIFF · 无损图像</option><option value="ico">ICO · 单尺寸图标</option><option value="raw">RAW · 原始像素 + 说明文件</option></select><p id="format-hint" class="hint">无损保存，适合截图、图形和透明图片。</p>
+<div id="quality-area" hidden><div class="field-heading"><label for="quality">图片质量</label><output id="quality-value" for="quality">90</output></div><input type="range" id="quality" min="1" max="100" value="90"><label id="lossless-area" class="check-label" hidden><input type="checkbox" id="lossless"> 使用无损 WebP</label></div>
+<div class="field-heading"><label for="background-mode">背景填充</label><span id="bg-hint" class="small-label">保留透明区域</span></div><div class="background-row"><select id="background-mode"><option value="transparent">透明背景</option><option value="color">自选颜色</option></select><input id="color" type="color" value="#ffffff" aria-label="背景颜色" disabled></div>
+<button type="submit" id="generate" class="primary">生成图片 <span>↗</span></button></fieldset></form>
+<p class="settings-foot">精确像素尺寸 · 原图保持不变</p></section>
+</div>
+<div id="status" class="status" role="status" aria-live="polite">从上传一张图片开始。</div><ul id="warnings" class="warnings" hidden></ul>
+<section id="result" class="result-panel" hidden><span class="result-check" aria-hidden="true">✓</span><div class="result-description"><div class="result-heading"><h2 id="result-title">图片已就绪</h2><span id="result-badge">READY</span></div><p id="result-meta"></p></div><a id="download" class="download" download>下载图片 <span>↓</span></a></section>
+<section class="details"><div><span class="detail-number">01 / 真实识别</span><h3>看内容，不只看后缀</h3><p>解码检验图片内容，发现伪装格式与损坏文件。</p></div><div><span class="detail-number">02 / 动画支持</span><h3>让动态继续</h3><p>GIF 与 WebP 动画可保留帧时长和循环设置。</p></div><div><span class="detail-number">03 / 灵活输出</span><h3>常用格式，一处完成</h3><p>从日常照片到网站图标，按所需尺寸生成。</p></div></section>
+<footer><span>像素工坊 <span class="footer-dot">·</span> 简单处理，刚刚好。</span><span>LOCAL FIRST. PIXEL PERFECT.</span></footer>
+</main></body></html>
